@@ -176,4 +176,5 @@ cython_debug/
 ##FILES ADDED BY ME##
 
 #spreadsheets
-NBA__WNBA_Daily_Stats.xlsx
+.xlsx
+.csv
