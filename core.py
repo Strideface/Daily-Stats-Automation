@@ -63,12 +63,15 @@ def filter_NBA_WNBA(worksheets_dict):
 
 def filter_daily_stats(worksheets_dict):
 
+    print('Backlog: \n')
     for row in worksheets_dict['Current Backlog'].iter_rows(values_only=True):
         print(row)
 
+    print('\n New \n')
     for row in worksheets_dict['Daily Support Contacts'].iter_rows(values_only=True):
         print(row)
 
+    print('\n P1-P2 \n')
     for row in worksheets_dict['Previous Day P1P2 Ticket...'].iter_rows(values_only=True):
         print(row)
 
