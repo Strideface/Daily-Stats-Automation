@@ -23,23 +23,38 @@ def read_xlsx(file_name):
 
 def filter_stats_from_worksheets(worksheets_dict):
     
-    emails = 0
-    chats = 0
+    NBA_emails = 0
+    NBA_chats = 0
+    WNBA_emails = 0
+
     for row in worksheets_dict['NBA'].iter_rows(values_only=True):
-        if 'Email' or 'Web' or 'WhatsApp' in row:
-            emails += int(row[2])
-        elif 'messaging' in row:
-            chats += int(row[2])
+        for item in row:
+            if 'Email' == item:
+                NBA_emails += int(float(row[2]))
+            elif 'Web' == item:
+                NBA_emails += int(float(row[2]))
+            elif 'WhatsApp' == item:
+                NBA_emails += int(float(row[2]))
+            elif 'Messaging' == item:
+                NBA_chats += int(float(row[2]))
+
+    print(str(NBA_emails) + ', ' + str(NBA_chats))
+
     
-    # print('WNBA:')
-    # for row in worksheets_dict['WNBA'].iter_rows(values_only=True):
-    #     print(row)
+    print('WNBA:')
+    for row in worksheets_dict['WNBA'].iter_rows(values_only=True):
+        for item in row:
+            if 'SUM' == item:
+                WNBA_emails += int(float(row[2]))
+                break
+                # break as there are two 'SUM' items in the row (don't want to add twice)
 
-    print(emails + ', ' + chats)
+    print(str(WNBA_emails))
 
-    return {'NBA - email': None, 'NBA - chat': None, 'WNBA - email': None}
+    return {'NBA - email': NBA_emails, 'NBA - chat': NBA_chats, 'WNBA - email': WNBA_emails}
 
 def create_csv(rows_dict):
+    print(rows_dict)
     f = open(f'NBA_WNBA_Stats.csv','w',encoding="utf-8", newline='')
 
     field_names = ['NBA - email', 'NBA - chat', 'WNBA - email']
@@ -47,3 +62,6 @@ def create_csv(rows_dict):
     writer = csv.DictWriter(f, fieldnames=field_names)
 
     writer.writeheader()
+
+    writer.writerow({'NBA - email': rows_dict['NBA - email'], 'NBA - chat': rows_dict['NBA - chat'], 'WNBA - email': rows_dict['WNBA - email']})
+    f.close()
