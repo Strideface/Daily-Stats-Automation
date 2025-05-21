@@ -1,6 +1,7 @@
 import csv
 import openpyxl
 from B2B_clients import B2B_clients_dict
+from B2C_clients import B2C_clients_dict
 
 
 def read_NBA_WNBA(file_name):
@@ -78,7 +79,7 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
         print(row)
         if row[0] == 'B2B':
             B2B.append(row)
-        else:
+        elif row[0] == 'B2C':
             B2C.append(row)
 
 
@@ -87,41 +88,61 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
     #B2B New:
 
     #create new dict with client name and ticket count
-    B2B_new = {}
+    B2B_email = {}
     #for every client in the B2B_clients_dict, check if they are in the B2B list
     #if they are, add them to the new dict with the ticket count
     #else, add them to the new dict with a value of 0
     x = 0
     for client in B2B_clients_dict.values():
         if client == B2B[x][2]:
-            print(client)
-            B2B_new[client] = B2B[x][-1]
+            # print(client)
+            B2B_email[client] = int(B2B[x][-1])
             x += 1
         else:
-            B2B_new[client] = 0
+            B2B_email[client] =  0
 
-    print('\n B2B_new \n')
-    print(B2B_new)
-    print(len(B2B_new))
+    print('\n B2B_email \n')
+    print(B2B_email)
+    print(len(B2B_email))
+
+    print('\n B2C \n')
+    print(B2C)
+
+    #B2C New:
+
+    #Same process as above but also combine the NBA and WNBA stats AND seperate emails from chats
+
+    #Emails:
+    B2C_email = B2C_clients_dict.copy()
+    for row in B2C: 
+        try:          
+            if isinstance(row[3], float):
+                B2C_email[row[2]] += int(row[3])
+            if isinstance(row[5], float):
+                B2C_email[row[2]] += int(row[5])
+            if isinstance(row[7], float):
+                B2C_email[row[2]] += int(row[7])
+        except KeyError:
+            print(f'KeyError thrown for {row[2]} (May not exist in B2C_clients_dict)')
+            continue
+
+        #in order to add Any Channel, Email and Web values together.
+        #need to check if the value is a float (e.g. 1.0) first as if the value is nothing
+        #it's actually an empty string (e.g. '') and will throw an error if you try operate.
+
+    print('\n B2C_email \n')
+    print(B2C_email)
+    print(len(B2C_email))
 
     
     # print('\n P1-P2 \n')
     # for row in worksheets_dict['Previous Day P1P2 Ticket...'].iter_rows(values_only=True):
     #     print(row)
 
-    #B2B
-    #create new dict
-    #for every value in B2B_clients, 
-    #if in ZD daily stats sheet 
-    #add to new dict and attribute the value in the ZD daily stats sheet (e.g. 'Adjara' : 10)
-    #else add to new dict with a value of 0 (e.g. 'Adjara' : 0)
-    #combine NBA/WNBA stats in the right order to this new dict.
-    #write just a row in the new csv with the values from the new dict.
-
-#return a dictionary with the key representing each tab name for the csv file and the value a dict
+#return a dictionary with the key representing each tab name for the new csv file and the value a dict
 #with the field name and row values for those tabs.
 #The csv file replicates the layout of the 'Daily Team Stats' spreadsheet (The tabs with quantative data only).
-    return {'B2B Email': B2B_new, 'B2B Backlog': None, 'B2C Email': None, 'B2C Backlog': None, 'B2C Chat': None}
+    return {'B2B Email': B2B_email, 'B2B Backlog': None, 'B2C Email': B2C_email, 'B2C Backlog': None, 'B2C Chat': None}
 
 
 
