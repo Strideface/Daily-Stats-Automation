@@ -96,16 +96,7 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
         except KeyError:
             print(f'KeyError thrown for {row[2]} (May not exist in B2B_clients_dict)')
             continue
-    #for every client in the B2B_clients_dict, check if they are in the B2B list
-    #if they are, add them to the new dict with the ticket count
-    #else, add them to the new dict with a value of 0
-    # for client in B2B_clients_dict.values():
-    #     if client == B2B[x][2]:
-    #         # print(client)
-    #         B2B_email[client] = int(B2B[x][-1])
-    #         x += 1
-    #     else:
-    #         B2B_email[client] =  0
+
 
     print('\n B2B_email \n')
     print(B2B_email)
@@ -116,7 +107,7 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
 
     #B2C New:
 
-    #Same process as above but also combine the NBA and WNBA stats AND seperate emails from chats
+    #Similar process as above but also combine the NBA and WNBA stats AND seperate emails from chats
 
     #Emails:
     B2C_email = B2C_clients_dict.copy()
