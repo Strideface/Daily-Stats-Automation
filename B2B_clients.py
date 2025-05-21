@@ -1,6 +1,6 @@
 #Use this dictionary to ensure values always go into the right cell. WIP.
 
-B2B_clients = {
+B2B_clients_dict = {
     1 : 'ABFF Client Support',
     2: 'Adjara Sport Client Support',
     3: 'Al Jazeera Client Support',
