@@ -87,19 +87,25 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
     print(B2B)
     #B2B New:
 
-    #create new dict with client name and ticket count
-    B2B_email = {}
+    #make new copy of B2B_clients_dict
+    B2B_email = B2B_clients_dict.copy()
+    #for every client name (row[2], find it in B2B_email and replace the original value (0) with the ticket count value (row[-1] - 'SUM'))
+    for row in B2B: 
+        try: 
+            B2B_email[row[2]] = int(row[-1])
+        except KeyError:
+            print(f'KeyError thrown for {row[2]} (May not exist in B2B_clients_dict)')
+            continue
     #for every client in the B2B_clients_dict, check if they are in the B2B list
     #if they are, add them to the new dict with the ticket count
     #else, add them to the new dict with a value of 0
-    x = 0
-    for client in B2B_clients_dict.values():
-        if client == B2B[x][2]:
-            # print(client)
-            B2B_email[client] = int(B2B[x][-1])
-            x += 1
-        else:
-            B2B_email[client] =  0
+    # for client in B2B_clients_dict.values():
+    #     if client == B2B[x][2]:
+    #         # print(client)
+    #         B2B_email[client] = int(B2B[x][-1])
+    #         x += 1
+    #     else:
+    #         B2B_email[client] =  0
 
     print('\n B2B_email \n')
     print(B2B_email)
