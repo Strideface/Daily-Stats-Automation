@@ -1,5 +1,6 @@
 import csv
 import openpyxl
+import xlsxwriter
 from B2B_clients import B2B_clients_dict
 from B2C_clients import B2C_clients_dict
 from chat_clients import chat_clients_dict
@@ -208,22 +209,69 @@ def filter_daily_stats(daily_stats_worksheets_dict, NBA_WNBA_stats_dict):
     
 
 
-#return a dictionary with the key representing each tab name for the new csv file and the value a dict
-#with the field name and row values for those tabs.
-#The csv file replicates the layout of the 'Daily Team Stats' spreadsheet (The tabs with quantative data only).
+    #return a dictionary with the key representing each tab name for the new xlsx file and the value a dict
+    #with the field name and row values for those tabs.
+    #The xlsx file replicates the layout of the 'Daily Team Stats' spreadsheet (The tabs with quantative data only).
     return {'B2B Email': B2B_email, 'B2B Backlog': B2B_backlog, 'B2C Email': B2C_email, 'B2C Backlog': B2C_backlog, 'B2C Chat': B2C_chat}
 
 
 
-def create_csv(rows_dict):
-    print(rows_dict)
-    f = open(f'NBA_WNBA_Stats.csv','w',encoding="utf-8", newline='')
+def create_new_xlsx_file(rows_dict):
+    #set row and column index values to 0 (0,0 = A1 cell)
+    row = 0
+    col = 0
+    #create the new xlsx file
+    workbook = xlsxwriter.Workbook('Daily_Team_Stats.xlsx')
 
-    field_names = ['NBA - email', 'NBA - chat', 'WNBA - email']
+    #Add a worksheet/tab for each of the keys in the rows_dict. The key names are the tab names.
+    B2B_email = workbook.add_worksheet('B2B Email')
+    #add client names along the top row and the values in the row below
+    for client, value in rows_dict['B2B Email'].items():
+        B2B_email.write(row, col, client)
+        B2B_email.write(row + 1, col, value)
+        col += 1
+    #reset column index to 0 for the next tab
+    col = 0
+    print('B2B_email complete')
 
-    writer = csv.DictWriter(f, fieldnames=field_names)
+    B2B_backlog = workbook.add_worksheet('B2B Backlog')
 
-    writer.writeheader()
+    for client, value in rows_dict['B2B Backlog'].items():
+        B2B_backlog.write(row, col, client)
+        B2B_backlog.write(row + 1, col, value)
+        col += 1
 
-    writer.writerow({'NBA - email': rows_dict['NBA - email'], 'NBA - chat': rows_dict['NBA - chat'], 'WNBA - email': rows_dict['WNBA - email']})
-    f.close()
+    col = 0
+    print('B2B_backlog complete')
+
+    B2C_email = workbook.add_worksheet('B2C Email')
+
+    for client, value in rows_dict['B2C Email'].items():
+        B2C_email.write(row, col, client)
+        B2C_email.write(row + 1, col, value)
+        col += 1
+
+    col = 0
+    print('B2C_email complete')
+
+    B2C_backlog = workbook.add_worksheet('B2C Backlog')
+
+    for client, value in rows_dict['B2C Backlog'].items():
+        B2C_backlog.write(row, col, client)
+        B2C_backlog.write(row + 1, col, value)
+        col += 1
+
+    col = 0
+    print('B2C_backlog complete')
+
+    B2C_chat = workbook.add_worksheet('B2C Chat')
+
+    for client, value in rows_dict['B2C Chat'].items():
+        B2C_chat.write(row, col, client)
+        B2C_chat.write(row + 1, col, value)
+        col += 1
+
+    col = 0
+    print('B2C_chat complete')
+
+    workbook.close()
