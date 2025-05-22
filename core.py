@@ -2,7 +2,7 @@ import csv
 import openpyxl
 from B2B_clients import B2B_clients_dict
 from B2C_clients import B2C_clients_dict
-
+from chat_clients import chat_clients_dict
 
 def read_NBA_WNBA(file_name):
 
@@ -33,14 +33,14 @@ def read_daily_stats(file_name):
             'Previous Day P1P2 Ticket...': worksheets[2]} 
 
 
-def filter_NBA_WNBA(worksheets_dict):
+def filter_NBA_WNBA(NBA_WNBA_worksheets_dict):
     
     NBA_emails = 0
     NBA_chats = 0
     WNBA_emails = 0
 
     #iterate through the items in the rows to add up values of emails and seperate them from chats
-    for row in worksheets_dict['NBA'].iter_rows(values_only=True):
+    for row in NBA_WNBA_worksheets_dict['NBA'].iter_rows(values_only=True):
         for item in row:
             if 'Email' == item:
                 NBA_emails += int(float(row[2]))
@@ -52,7 +52,7 @@ def filter_NBA_WNBA(worksheets_dict):
                 NBA_chats += int(float(row[2]))
 
     #same as above but only need the total figure ('SUM')
-    for row in worksheets_dict['WNBA'].iter_rows(values_only=True):
+    for row in NBA_WNBA_worksheets_dict['WNBA'].iter_rows(values_only=True):
         for item in row:
             if 'SUM' == item:
                 WNBA_emails += int(float(row[2]))
@@ -63,19 +63,15 @@ def filter_NBA_WNBA(worksheets_dict):
     return {'NBA - email': NBA_emails, 'NBA - chat': NBA_chats, 'WNBA - email': WNBA_emails}
 
 
-def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
-    #*args for now until this function is finished then it will need to be passed in always
+def filter_daily_stats(daily_stats_worksheets_dict, NBA_WNBA_stats_dict):
 
-    # print('Backlog: \n')
-    # for row in worksheets_dict['Current Backlog'].iter_rows(values_only=True):
-    #     print(row)
 
     #NEW:
     print('\n New \n')
     #seperate B2B from B2C tickets
     B2B = []
     B2C = []
-    for row in worksheets_dict['Daily Support Contacts'].iter_rows(values_only=True):
+    for row in daily_stats_worksheets_dict['Daily Support Contacts'].iter_rows(values_only=True):
         print(row)
         if row[0] == 'B2B':
             B2B.append(row)
@@ -89,10 +85,10 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
 
     #make new copy of B2B_clients_dict
     B2B_email = B2B_clients_dict.copy()
-    #for every client name (row[2], find it in B2B_email and replace the original value (0) with the ticket count value (row[-1] - 'SUM'))
+    #for every client name (row[2], find it in B2B_email and add the original value (0) with the ticket count value (row[-1] - 'SUM'))
     for row in B2B: 
         try: 
-            B2B_email[row[2]] = int(row[-1])
+            B2B_email[row[2]]+=int(row[-1])
         except KeyError:
             print(f'KeyError thrown for {row[2]} (May not exist in B2B_clients_dict)')
             continue
@@ -123,23 +119,99 @@ def filter_daily_stats(worksheets_dict, *NBA_WNBA_dict):
             print(f'KeyError thrown for {row[2]} (May not exist in B2C_clients_dict)')
             continue
 
-        #in order to add Any Channel, Email and Web values together.
-        #need to check if the value is a float (e.g. 1.0) first as if the value is nothing
-        #it's actually an empty string (e.g. '') and will throw an error if you try operate.
+        #in order to add 'Any Channel', 'Email' and 'Web' values together.
+        #need to check if the value is a float (e.g. 1.0) first, as if the value is nothing,
+        #it's actually an empty string (e.g. '') and will throw an error if you try to operate.
+
+    #Combine the NBA and WNBA email stats
+    B2C_email['NBA']=NBA_WNBA_stats_dict['NBA - email']
+    B2C_email['WNBA']=NBA_WNBA_stats_dict['WNBA - email']
 
     print('\n B2C_email \n')
     print(B2C_email)
     print(len(B2C_email))
 
+    #B2C Chat:
+    B2C_chat = chat_clients_dict.copy()
+    for row in B2C: 
+        try:          
+            if isinstance(row[4], float):
+                B2C_chat[row[2]] += int(row[4])
+            if isinstance(row[6], float):
+                B2C_chat[row[2]] += int(row[6])
+        except KeyError:
+            print(f'KeyError thrown for {row[2]} (May not exist in chat_clients_dict)')
+            continue
+
+        #in order to add 'Chat' and 'Messaging' values together.
+        #need to check if the value is a float (e.g. 1.0) first, as if the value is nothing,
+        #it's actually an empty string (e.g. '') and will throw an error if you try to operate.
+
+    print('\n B2C_chat \n')
+    print(B2C_chat)
+    print(len(B2C_chat))
+
+
+    #Backlog:
+    print('\nBacklog: \n')
+    #seperate B2B from B2C tickets
+    B2B = []
+    B2C = []
+    for row in daily_stats_worksheets_dict['Current Backlog'].iter_rows(values_only=True):
+        print(row)
+        if row[0] == 'B2B':
+            B2B.append(row)
+        #'type' cell for Sky, NESN and WWE B2B backlog can appear as '\xa0' (non-breaking space)
+        elif row[0] == '\xa0':
+            B2B.append(row)
+        elif row[0] == 'B2C':
+            B2C.append(row)
+
+    print('\n B2B \n')
+    print(B2B)
+    #B2B Backlog:
+
+    #make new copy of B2B_clients_dict
+    B2B_backlog = B2B_clients_dict.copy()
+    #for every client name (row[1], find it in B2B_backlog and add the original value (0) with the ticket count value (row[-1]))
+    for row in B2B: 
+        try: 
+            B2B_backlog[row[1]]+=int(row[-1])
+        except KeyError:
+            print(f'KeyError thrown for {row[1]} (May not exist in B2B_clients_dict)')
+            continue
+
+
+    print('\n B2B_backlog \n')
+    print(B2B_backlog)
+    print(len(B2B_backlog))
+
+
+    #B2C Backlog:
+    print('\n B2C \n')
+    print(B2C)
+
+    #Same as above but for B2C
+
+    B2C_backlog = B2C_clients_dict.copy()
+    for row in B2C: 
+        try: 
+            B2C_backlog[row[1]]+=int(row[-1])
+        except KeyError:
+            print(f'KeyError thrown for {row[1]} (May not exist in B2C_clients_dict)')
+            continue
+
+
+    print('\n B2C_backlog \n')
+    print(B2C_backlog)
+    print(len(B2C_backlog))
     
-    # print('\n P1-P2 \n')
-    # for row in worksheets_dict['Previous Day P1P2 Ticket...'].iter_rows(values_only=True):
-    #     print(row)
+
 
 #return a dictionary with the key representing each tab name for the new csv file and the value a dict
 #with the field name and row values for those tabs.
 #The csv file replicates the layout of the 'Daily Team Stats' spreadsheet (The tabs with quantative data only).
-    return {'B2B Email': B2B_email, 'B2B Backlog': None, 'B2C Email': B2C_email, 'B2C Backlog': None, 'B2C Chat': None}
+    return {'B2B Email': B2B_email, 'B2B Backlog': B2B_backlog, 'B2C Email': B2C_email, 'B2C Backlog': B2C_backlog, 'B2C Chat': B2C_chat}
 
 
 
