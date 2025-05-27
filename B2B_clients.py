@@ -40,6 +40,7 @@ B2B_clients_dict = {
     'Real Madrid Client Support' : 0,
     'Shout! TV Client Support' : 0,
     'Sky Sport Now Client Support' : 0,
+    'Sport24 Client Support': 0,
     'SPTV Client Support' : 0,
     'Spurs TV Client Support' : 0,
     'SuperLeague+ Client Support' : 0,
