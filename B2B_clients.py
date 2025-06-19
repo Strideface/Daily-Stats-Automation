@@ -9,8 +9,10 @@ B2B_clients_dict = {
     'Adjara Sport Client Support' : 0,
     'Al Jazeera Client Support' : 0,
     'AMCN HIDIVE Client Support' : 0,
+    'AMC Sundance TV Client Support': 0,
     'Anderlecht Client Support' : 0,
     'Blast TV Client Support' : 0,
+    'BroadwayHD Client Support': 0,
     'Carlisle United Client Support' : 0,
     'Core Sports Client Support' : 0,
     'Dallas Mavericks Client Support' : 0,
@@ -21,6 +23,7 @@ B2B_clients_dict = {
     'FEDCOM Client Support' : 0, #Skweek TV
     'Supermotocross Client Support' : 0,
     'Feyenoord Client Support' : 0,
+    'FIH Client Support': 0,
     'FIS Client Support' : 0,
     'Indiana Fever Client Support' : 0,
     'Ligue 1 Client Support' : 0,

@@ -30,8 +30,7 @@ def read_daily_stats(file_name):
         worksheets.append(wb.get_sheet_by_name(tab_name))
 
     #return worksheet objects which then feeds into filter_daily_stats
-    return {'Current Backlog': worksheets[0], 'Daily Support Contacts': worksheets[1], 
-            'Previous Day P1P2 Ticket...': worksheets[2]} 
+    return {'Current Backlog': worksheets[0], 'Daily Support Contacts': worksheets[1]} 
 
 
 def filter_NBA_WNBA(NBA_WNBA_worksheets_dict):
@@ -72,6 +71,11 @@ def filter_daily_stats(daily_stats_worksheets_dict, NBA_WNBA_stats_dict):
     #seperate B2B from B2C tickets
     B2B = []
     B2C = []
+    #because this colunm does not always appear, check here if it exists, as it will affect when looping over the rows
+    #to obtain B2C figures later on.
+    print("Test = ", daily_stats_worksheets_dict['Daily Support Contacts'])
+    #any_channel_tickets = daily_stats_worksheets_dict['Daily Support Contacts'][0][3] == "Any channel Tickets"
+    #print(any_channel_tickets)
     for row in daily_stats_worksheets_dict['Daily Support Contacts'].iter_rows(values_only=True):
         print(row)
         if row[0] == 'B2B':

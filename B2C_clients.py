@@ -5,6 +5,7 @@
 
 B2C_clients_dict = {
     'ABFF Play' : 0,
+    'BroadwayHD': 0,
     'Carlisle United TV' : 0,
     'Dallas Mavericks TV' : 0,
     'Dice Support Tickets' : 0,
@@ -12,6 +13,7 @@ B2C_clients_dict = {
     'EuroLeague TV' : 0,
     'SkweekTV' : 0,
     'SuperMotocross Video Pass' : 0,
+    'FIH': 0,
     'Fever Direct' : 0,
     'Ligue 1' : 0,
     'Longhorn Network' : 0,
