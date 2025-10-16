@@ -5,9 +5,9 @@
 
 chat_clients_dict = {
     'EuroLeague TV' : 0,
+    'Ligue 1+' : 0,
     'NBA' : 0, #Not on ZD
     'Sky Sport Now' : 0,
     'UFC' : 0,
     'UFC Fight Pass Brasil' : 0,
-    'Univision Now' : 0,
 }

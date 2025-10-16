@@ -15,7 +15,7 @@ B2C_clients_dict = {
     'SuperMotocross Video Pass' : 0,
     'FIH': 0,
     'Fever Direct' : 0,
-    'Ligue 1' : 0,
+    'Ligue 1+' : 0,
     'Longhorn Network' : 0,
     'Racer+ Support' : 0,
     'NBA' : 0, #Not on ZD
@@ -24,6 +24,7 @@ B2C_clients_dict = {
     'NWSL+' : 0,
     'NZ Rugby' : 0,
     'Oilers Plus' : 0,
+    'PCB Live' : 0,
     'Sky Sport Now' : 0,
     'SPURSPLAY' : 0,
     'SuperLeague+' : 0,
