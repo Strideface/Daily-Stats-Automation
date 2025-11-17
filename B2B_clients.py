@@ -5,7 +5,6 @@
 
 
 B2B_clients_dict = {
-    'ABFF Client Support' : 0,
     'Adjara Sport Client Support' : 0,
     'Al Jazeera Client Support' : 0,
     'AMCN HIDIVE Client Support' : 0,
