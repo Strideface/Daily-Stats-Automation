@@ -13,9 +13,7 @@ B2B_clients_dict = {
     'Blast TV Client Support' : 0,
     'BroadwayHD Client Support': 0,
     'Carlisle United Client Support' : 0,
-    'Core Sports Client Support' : 0,
     'Dallas Mavericks Client Support' : 0,
-    'ELF Client Support' : 0,
     'Endeavor Streaming Privacy' : 0,
     'PLCS Client Support' : 0, #EPL
     'EuroLeague Client Support' : 0,
@@ -52,8 +50,6 @@ B2B_clients_dict = {
     'UEFA TV Client Support' : 0,
     'UFC Client Support' : 0,
     'UFC Fight Pass Brasil Client Support' : 0,
-    'Univision Now Client Support' : 0,
-    'USGA Client Support' : 0,
     'WNBA League Pass Client Support' : 0,
     'World Rugby Client Support' : 0,
     'WWE Client Support' : 0,

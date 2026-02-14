@@ -9,5 +9,4 @@ chat_clients_dict = {
     'NBA' : 0, #Not on ZD
     'Sky Sport Now' : 0,
     'UFC' : 0,
-    'UFC Fight Pass Brasil' : 0,
 }

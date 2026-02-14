@@ -8,7 +8,6 @@ B2C_clients_dict = {
     'Carlisle United TV' : 0,
     'Dallas Mavericks TV' : 0,
     'Dice Support Tickets' : 0,
-    'European League of Football' : 0,
     'EuroLeague TV' : 0,
     'SkweekTV' : 0,
     'SuperMotocross Video Pass' : 0,
@@ -31,8 +30,6 @@ B2C_clients_dict = {
     'UEFA TV' : 0,
     'UFC' : 0,
     'UFC Fight Pass Brasil' : 0,
-    'Univision Now' : 0,
-    'Univision TVE' : 0,
     'WNBA' : 0, #Not in ZD
     'Rugbypass.tv' : 0,
     'WWE Network' : 0,
