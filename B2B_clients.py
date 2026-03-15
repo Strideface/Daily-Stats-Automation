@@ -8,6 +8,7 @@ B2B_clients_dict = {
     'Adjara Sport Client Support' : 0,
     'Al Jazeera Client Support' : 0,
     'AMCN HIDIVE Client Support' : 0,
+    'AMC Shudder Client Support' : 0,
     'AMC Sundance TV Client Support': 0,
     'Anderlecht Client Support' : 0,
     'Blast TV Client Support' : 0,
